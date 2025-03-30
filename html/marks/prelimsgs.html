@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="index" content="follow">
+ 
+<meta name="description" content="Calculate your UPSC Prelims Gs score with this UniqueUpsc calculator.">
+  
+<style>
+  header,
+  #PopularPosts1,
+  #comments,
+  #footer,
+  .post-share-buttons,
+  .bg-photo-container,
+  .bg-photo-overlay,
+  .post-title, 
+  .collapsed-header .centered-top-placeholder {
+    display: none;
+  }
+  
+  .post-body {
+    padding-top: 19px;
+    padding-bottom: 19px;
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    color: #000;
+  }
+      
+      
+   
+  
+  .page_body .widget {
+    margin-bottom: 0;
+  }
+  
+  .Blog .blog-posts .post-outer-container,
+  .centered-bottom {
+    padding: 0;
+  }
+  
+  .page_body .centered {
+    max-width: unset;
+    padding: 0;
+  }
+  
+  .post-body img {
+    height: unset;
+  }
+  
+  footer h3 {
+    color: #fff;
+  }
+  
+  .post-body h3 {color: #000}
+  
+  
+  
+  @media screen and (max-width: 800px) {
+    div.widget.Blog .blog-posts .post-outer-container {
+        padding: 0;
+    }
+  }
+  
+  nav a:hover {
+    color: #000;
+  }
+  
+
+    a:visited {
+      color: #000
+    }
+  
+  .buttons a:visited {color: #fff;}
+  
+  footer a:visited {color: #fff};
+  
+  .post-body {
+    color: #000;
+  }
+  
+  
+  
+  
+  .post-header {
+    display: none;
+    visibility: collapse;
+}
+</style>
+<style>
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .form-group svg {
+            margin-right: 10px;
+            width: 24px;
+            height: 24px;
+        }
+        input[type="number"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+        }
+        .submit-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+        }
+        .submit-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+<style type="text/css">
+        .animated-card {
+            min-height: 300px;
+            width: calc(100% - 40px); /* Adjusted width to match the form container */
+            background: #1998ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+            margin-top: 20px;
+            padding: 20px;
+        }
+    .animated-card::before {
+        content: "";
+        position: absolute;
+        height: 400px;
+        width: 400px;
+        background-image: conic-gradient(
+            transparent,
+            transparent,
+            transparent,
+            #74ff51
+        );
+        animation: rotate 5s linear infinite;
+    }
+    .animated-card .inner {
+        position: relative;
+        width: 100%;
+        background: #222;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-family: "Roboto", sans-serif;
+        text-align: center;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+    @keyframes rotate {
+        to {
+            transform: rotateZ(360deg);
+        }
+    }
+
+
+
+
+
+        .play-store-button {
+            display             : inline-block;
+            padding             : 10px 20px;
+            background-color    : #4CAF50;
+            color               : white;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+
+    </style>
+
+  
+</head>
+  
+  
+  
+  
+  
+<body>
+    
+    <div class="form-container" >
+        <h2>UPSC Prelims GS Score Calculator</h2>
+        <p padding = '10px'>             </p>
+        <form id="name-form" >
+            <label for="TCorr" class="form-group"><b>Total Correct Questions:</b></label>
+            <div class="form-group">
+                <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                />
+              </svg>
+                <input type="number" id="TCorr" name="TCorr" placeholder="Enter No of Correct Questions">
+            </div>
+            <label for="TWrong" class="form-group"><b>Total Wrong Questions:</b></label>
+            <div class="form-group">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                    >
+                        <path
+                          stroke-linecap="round"
+                          d="M16.5 12a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 10-2.636 6.364M16.5 12V8.25"
+                        />
+                  </svg>
+                <input type="number" id="TWrong" name="TWrong" placeholder="Enter No of Wrong Questions">
+            </div>
+            <button class="submit-button" onclick="calculateScore(event)">Submit</button>
+        </form>
+        </div>
+    <div class="animated-card">
+        <div class="inner">
+            <div id="detailsContainer">Enter your input to calculate Score</div>
+            <a href="https://play.google.com/store/apps/details?id=com.smartupsc.upscmarks" target="_blank" id="playStoreLink" style="display: none;" class="play-store-button">Download on Play Store</a>
+        </div>
+    </div>
+
+
+    
+    <script>
+        function calculateScore(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            var totalMarks          = 200; // Default total marks
+            var totalCorrect = document.getElementById('TCorr').value;
+            if (totalCorrect.trim() === '') {
+                alert("No of Correct Question Empty");
+                return;
+            }
+            if (parseInt(totalCorrect) != totalCorrect) {
+                alert("Enter only integer value in Correct Questions Ex: " + parseInt(totalCorrect) + "," + (parseInt(totalCorrect) + 3) + "," + (parseInt(totalCorrect) + 8) + ".");
+                return;
+            }
+
+            if (parseInt(totalCorrect) > 100) {
+                alert("Total number of correct questions should be less than 80.");
+                return;
+            }
+
+            var totalWrong = document.getElementById('TWrong').value;
+            if (totalWrong.trim() === '') {
+                alert("No of Wrong Question Empty");
+                return;
+            }
+            if (parseInt(totalWrong) != totalWrong) {
+                alert("Enter only integer value in Wrong Questions Ex: " + parseInt(totalWrong) + "," + (parseInt(totalWrong) + 3) + "," + (parseInt(totalWrong) + 8) + ".");
+                return;
+            }
+
+            if (parseInt(totalWrong) > 100) {
+                alert("Total number of wrong answers should be less than 80.");
+                return;
+            }
+
+            var finalquestions = parseInt(totalCorrect) + parseInt(totalWrong);
+            // Check if total correct and wrong answers combined are less than 100
+            if (finalquestions > 100) {
+                alert("Sum of correct questions and wrong answers combined should be less than 80. Provide number of questions answered " + finalquestions);
+                return;
+            }
+
+            var correctMarks = totalCorrect * 2;
+            var wrongMarks = (totalWrong * 2) / 3;
+
+            var netScore = correctMarks - wrongMarks;
+
+            var detailsContainer = document.getElementById('detailsContainer');
+            detailsContainer.innerHTML = `
+                <p>Total Marks: ${totalMarks.toFixed(2)}</p>
+                <p>Positive Marks: ${correctMarks.toFixed(2)} </p> 
+                <p>Negative Marks: ${wrongMarks.toFixed(2)} </p>
+                <p>Final Score: ${netScore.toFixed(2)}</p>
+                
+                
+                <p style="font-size: 12px; color: #666; line-height: 1.4;">
+    Any loss resulting from the provided inputs is not the responsibility of the website.
+    If you believe the input provided is incorrect, please contact us at 
+    <a href="mailto:developer@uniqueupsc.com" style="color: #666; text-decoration: underline;">developer@uniqueupsc.com</a>.
+    We will address the issue as soon as possible.
+</p>
+
+                <p padding= "20px"> </p>
+                <p color: #ccc; margin-top: 10px;">For a comprehensive breakdown and more features, download our premium app for free from the Play Store.</p>
+            `;
+
+            // Show the "Download on Play Store" button
+            var playStoreLink = document.getElementById('playStoreLink');
+            playStoreLink.style.display = 'inline-block';
+        }
+    </script>
+
+
+
+</body>
+  
+  
+  
+  
+  
+  
+  
+  
+</html>
