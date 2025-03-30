@@ -273,7 +273,7 @@
             }
 
             if (parseInt(totalCorrect) > 100) {
-                alert("Total number of correct questions should be less than 80.");
+                alert("Total number of correct questions should be less than 100.");
                 return;
             }
 
@@ -288,14 +288,14 @@
             }
 
             if (parseInt(totalWrong) > 100) {
-                alert("Total number of wrong answers should be less than 80.");
+                alert("Total number of wrong answers should be less than 100.");
                 return;
             }
 
             var finalquestions = parseInt(totalCorrect) + parseInt(totalWrong);
             // Check if total correct and wrong answers combined are less than 100
             if (finalquestions > 100) {
-                alert("Sum of correct questions and wrong answers combined should be less than 80. Provide number of questions answered " + finalquestions);
+                alert("Sum of correct questions and wrong answers combined should be less than 100. Provide number of questions answered " + finalquestions);
                 return;
             }
 
