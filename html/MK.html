@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPSC Prelims Cutoff Trends (2014-2024)</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-bg: #f5f7fa;
+            --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --mobile-breakpoint: 768px;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+            color: #333;
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        h1 {
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            opacity: 0.9;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            scrollbar-width: none; /* Firefox */
+        }
+        
+        .tabs::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
+        }
+        
+        .tab {
+            padding: 12px 20px;
+            background-color: #e0e0e0;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+            white-space: nowrap;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .tab:hover {
+            background-color: #d0d0d0;
+        }
+        
+        .tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Category Selector */
+        .category-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        
+        .category-btn {
+            padding: 8px 16px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+        
+        .category-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .category-btn.active {
+            background-color: var(--secondary-color);
+        }
+        
+        /* Charts */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            min-height: 300px;
+            margin-bottom: 20px;
+        }
+        
+        canvas {
+            width: 100% !important;
+            height: auto !important;
+        }
+        
+        /* Data Table */
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: var(--card-shadow);
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            min-width: 600px;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+        
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f9ff;
+        }
+        
+        tr:hover {
+            background-color: #e3f2fd;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #7f8c8d;
+            font-size: 14px;
+            padding: 20px 0;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            header {
+                padding: 15px 0;
+                margin-bottom: 20px;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+            
+            .tab {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+            
+            .category-btn {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
+            
+            th, td {
+                padding: 8px 10px;
+                font-size: 14px;
+            }
+            
+            .chart-container {
+                min-height: 250px;
+            }
+        }
+        
+        /* Desktop-specific enhancements */
+        @media (min-width: 769px) {
+            .chart-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+            
+            .category-selector {
+                justify-content: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>UPSC Prelims Cutoff Trends</h1>
+            <p class="subtitle">2014 to 2024 Analysis (All Categories)</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="card">
+            <div class="tabs">
+                <div class="tab active" onclick="showTab('charts')">Interactive Charts</div>
+                <div class="tab" onclick="showTab('data')">Data Table</div>
+                <div class="tab" onclick="showTab('insights')">Key Insights</div>
+            </div>
+            
+            <div id="charts" class="tab-content active">
+                <div class="category-selector">
+                    <button class="category-btn active" onclick="updateChart('all')">All Categories</button>
+                    <button class="category-btn" onclick="updateChart('general')">GENERAL</button>
+                    <button class="category-btn" onclick="updateChart('ews')">EWS</button>
+                    <button class="category-btn" onclick="updateChart('obc')">OBC</button>
+                    <button class="category-btn" onclick="updateChart('sc')">SC</button>
+                    <button class="category-btn" onclick="updateChart('st')">ST</button>
+                    <button class="category-btn" onclick="updateChart('ph')">PH Categories</button>
+                </div>
+                
+                <div class="chart-grid">
+                    <div class="chart-container">
+                        <canvas id="cutoffChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <div id="cutoffPlotlyChart"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="data" class="tab-content">
+                <div class="table-container">
+                    <table id="cutoffTable">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>2024</th>
+                                <th>2023</th>
+                                <th>2022</th>
+                                <th>2021</th>
+                                <th>2020</th>
+                                <th>2019</th>
+                                <th>2018</th>
+                                <th>2017</th>
+                                <th>2016</th>
+                                <th>2015</th>
+                                <th>2014</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>GENERAL</td>
+                                <td>75.41</td>
+                                <td>88.22</td>
+                                <td>87.54</td>
+                                <td>92.51</td>
+                                <td>98</td>
+                                <td>105.34</td>
+                                <td>116</td>
+                                <td>107.34</td>
+                                <td>205</td>
+                                <td>241</td>
+                            </tr>
+                            <tr>
+                                <td>EWS</td>
+                                <td>68.02</td>
+                                <td>82.83</td>
+                                <td>80.14</td>
+                                <td>77.55</td>
+                                <td>90</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>OBC</td>
+                                <td>74.75</td>
+                                <td>87.54</td>
+                                <td>84.85</td>
+                                <td>89.12</td>
+                                <td>95.34</td>
+                                <td>102.66</td>
+                                <td>110.66</td>
+                                <td>106</td>
+                                <td>204</td>
+                                <td>222</td>
+                            </tr>
+                            <tr>
+                                <td>SC</td>
+                                <td>59.25</td>
+                                <td>74.08</td>
+                                <td>75.41</td>
+                                <td>74.84</td>
+                                <td>82</td>
+                                <td>88.66</td>
+                                <td>99.34</td>
+                                <td>94</td>
+                                <td>182</td>
+                                <td>207</td>
+                            </tr>
+                            <tr>
+                                <td>ST</td>
+                                <td>47.82</td>
+                                <td>69.35</td>
+                                <td>70.71</td>
+                                <td>68.71</td>
+                                <td>77.34</td>
+                                <td>88.66</td>
+                                <td>96</td>
+                                <td>91.34</td>
+                                <td>174</td>
+                                <td>201</td>
+                            </tr>
+                            <tr>
+                                <td>PH-1</td>
+                                <td>40.4</td>
+                                <td>49.84</td>
+                                <td>68.02</td>
+                                <td>70.06</td>
+                                <td>53.34</td>
+                                <td>85.34</td>
+                                <td>75.36</td>
+                                <td>90.66</td>
+                                <td>167</td>
+                                <td>199</td>
+                            </tr>
+                            <tr>
+                                <td>PH-2</td>
+                                <td>47.13</td>
+                                <td>58.59</td>
+                                <td>67.33</td>
+                                <td>63.94</td>
+                                <td>44.66</td>
+                                <td>61.34</td>
+                                <td>72.66</td>
+                                <td>76.66</td>
+                                <td>113</td>
+                                <td>184</td>
+                            </tr>
+                            <tr>
+                                <td>PH-3</td>
+                                <td>40.4</td>
+                                <td>40.4</td>
+                                <td>43.09</td>
+                                <td>40.82</td>
+                                <td>40.66</td>
+                                <td>40</td>
+                                <td>40</td>
+                                <td>40</td>
+                                <td>115</td>
+                                <td>163</td>
+                            </tr>
+                            <tr>
+                                <td>PH-5</td>
+                                <td>33.68</td>
+                                <td>41.76</td>
+                                <td>45.8</td>
+                                <td>42.86</td>
+                                <td>61.34</td>
+                                <td>45.34</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div id="insights" class="tab-content">
+                <h3 style="margin-bottom: 15px; color: var(--secondary-color);">Key Observations</h3>
+                <ul style="padding-left: 20px; margin-bottom: 15px;">
+                    <li>📉 <strong>Significant drop</strong> in cutoff marks across all categories in 2024 compared to previous years</li>
+                    <li>📊 <strong>Highest cutoffs</strong> were in 2014-2016 (pre-CSAT pattern change)</li>
+                    <li>🧑‍🦯 <strong>PH-3 category</strong> shows most stable cutoffs (40 marks for 5 consecutive years)</li>
+                    <li>📅 <strong>EWS category</strong> introduced in 2019 with cutoffs between GENERAL and OBC</li>
+                    <li>🔍 <strong>2024 cutoffs</strong> are the lowest in the last decade for most categories</li>
+                </ul>
+                
+                <h3 style="margin-bottom: 15px; color: var(--secondary-color);">Category Comparison</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                    <div style="background: #e3f2fd; padding: 15px; border-radius: 8px;">
+                        <h4 style="color: var(--primary-color); margin-bottom: 8px;">GENERAL vs OBC</h4>
+                        <p>Average difference: ~8 marks (OBC cutoff is about 8 marks below GENERAL)</p>
+                    </div>
+                    <div style="background: #e8f5e9; padding: 15px; border-radius: 8px;">
+                        <h4 style="color: #2e7d32; margin-bottom: 8px;">SC vs ST</h4>
+                        <p>Average difference: ~12 marks (ST cutoff is about 12 marks below SC)</p>
+                    </div>
+                    <div style="background: #fff3e0; padding: 15px; border-radius: 8px;">
+                        <h4 style="color: #e65100; margin-bottom: 8px;">PH Categories</h4>
+                        <p>PH-1 > PH-2 > PH-5 > PH-3 in cutoff marks (PH-3 has lowest cutoffs)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>Data Source: UPSC Official Cutoff Marks | Visualization optimized for mobile and desktop</p>
+            <p>Note: PH-1 (Blindness), PH-2 (Locomotor), PH-3 (Deaf), PH-5 (Multiple Disabilities)</p>
+        </div>
+    </footer>
+
+    <script>
+        // Data preparation
+        const years = ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'].reverse();
+        
+        const data = {
+            general: [241, 205, 107.34, 116, 105.34, 98, 92.51, 87.54, 88.22, 75.41],
+            ews: [null, null, null, null, null, null, 90, 77.55, 80.14, 82.83, 68.02],
+            obc: [222, 204, 106, 110.66, 102.66, 95.34, 89.12, 84.85, 87.54, 74.75],
+            sc: [207, 182, 94, 99.34, 88.66, 82, 74.84, 75.41, 74.08, 59.25],
+            st: [201, 174, 91.34, 96, 88.66, 77.34, 68.71, 70.71, 69.35, 47.82],
+            ph1: [199, 167, 90.66, 75.36, 85.34, 53.34, 70.06, 68.02, 49.84, 40.4],
+            ph2: [184, 113, 76.66, 72.66, 61.34, 44.66, 63.94, 67.33, 58.59, 47.13],
+            ph3: [163, 115, 40, 40, 40, 40.66, 40.82, 43.09, 40.4, 40.4],
+            ph5: [null, null, null, null, 45.34, 61.34, 42.86, 45.8, 41.76, 33.68]
+        };
+        
+        // Initialize Chart.js chart
+        const ctx = document.getElementById('cutoffChart').getContext('2d');
+        let cutoffChart = new Chart(ctx, {
+            type: 'line',
+            data: getChartData('all'),
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'UPSC Prelims Cutoff Trend',
+                        font: {
+                            size: 16
+                        }
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            boxWidth: 12
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: 'Cutoff Marks'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Year'
+                        }
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'nearest'
+                }
+            }
+        });
+        
+        // Initialize Plotly chart
+        let plotlyData = preparePlotlyData('all');
+        Plotly.newPlot('cutoffPlotlyChart', plotlyData, {
+            title: 'Interactive Cutoff Analysis',
+            xaxis: {
+                title: 'Year'
+            },
+            yaxis: {
+                title: 'Cutoff Marks'
+            },
+            hovermode: 'closest',
+            showlegend: true,
+            legend: {
+                orientation: 'h',
+                y: -0.3
+            },
+            margin: {
+                t: 40,
+                b: 100
+            }
+        });
+        
+        // Helper functions
+        function getChartData(category) {
+            let datasets = [];
+            const colors = {
+                general: '#3498db',
+                ews: '#e74c3c',
+                obc: '#2ecc71',
+                sc: '#f39c12',
+                st: '#9b59b6',
+                ph1: '#1abc9c',
+                ph2: '#d35400',
+                ph3: '#34495e',
+                ph5: '#7f8c8d'
+            };
+            
+            if (category === 'all') {
+                for (const [key, value] of Object.entries(data)) {
+                    if (key !== 'ph1' && key !== 'ph2' && key !== 'ph3' && key !== 'ph5') {
+                        datasets.push({
+                            label: key.toUpperCase(),
+                            data: value,
+                            borderColor: colors[key],
+                            backgroundColor: 'rgba(255, 255, 255, 0)',
+                            borderWidth: 3,
+                            tension: 0.1,
+                            fill: false
+                        });
+                    }
+                }
+            } else if (category === 'ph') {
+                datasets.push({
+                    label: 'PH-1',
+                    data: data.ph1,
+                    borderColor: colors.ph1,
+                    backgroundColor: 'rgba(255, 255, 255, 0)',
+                    borderWidth: 3,
+                    tension: 0.1,
+                    fill: false
+                });
+                datasets.push({
+                    label: 'PH-2',
+                    data: data.ph2,
+                    borderColor: colors.ph2,
+                    backgroundColor: 'rgba(255, 255, 255, 0)',
+                    borderWidth: 3,
+                    tension: 0.1,
+                    fill: false
+                });
+                datasets.push({
+                    label: 'PH-3',
+                    data: data.ph3,
+                    borderColor: colors.ph3,
+                    backgroundColor: 'rgba(255, 255, 255, 0)',
+                    borderWidth: 3,
+                    tension: 0.1,
+                    fill: false
+                });
+                datasets.push({
+                    label: 'PH-5',
+                    data: data.ph5,
+                    borderColor: colors.ph5,
+                    backgroundColor: 'rgba(255, 255, 255, 0)',
+                    borderWidth: 3,
+                    tension: 0.1,
+                    fill: false
+                });
+            } else {
+                datasets.push({
+                    label: category.toUpperCase(),
+                    data: data[category],
+                    borderColor: colors[category],
+                    backgroundColor: 'rgba(255, 255, 255, 0)',
+                    borderWidth: 3,
+                    tension: 0.1,
+                    fill: false
+                });
+            }
+            
+            return {
+                labels: years,
+                datasets: datasets
+            };
+        }
+        
+        function preparePlotlyData(category) {
+            let plotlyData = [];
+            const colors = {
+                general: '#3498db',
+                ews: '#e74c3c',
+                obc: '#2ecc71',
+                sc: '#f39c12',
+                st: '#9b59b6',
+                ph1: '#1abc9c',
+                ph2: '#d35400',
+                ph3: '#34495e',
+                ph5: '#7f8c8d'
+            };
+            
+            if (category === 'all') {
+                for (const [key, value] of Object.entries(data)) {
+                    if (key !== 'ph1' && key !== 'ph2' && key !== 'ph3' && key !== 'ph5') {
+                        plotlyData.push({
+                            x: years,
+                            y: value,
+                            name: key.toUpperCase(),
+                            mode: 'lines+markers',
+                            line: {
+                                color: colors[key],
+                                width: 3
+                            },
+                            marker: {
+                                size: 6
+                            }
+                        });
+                    }
+                }
+            } else if (category === 'ph') {
+                plotlyData.push({
+                    x: years,
+                    y: data.ph1,
+                    name: 'PH-1',
+                    mode: 'lines+markers',
+                    line: {
+                        color: colors.ph1,
+                        width: 3
+                    },
+                    marker: {
+                        size: 6
+                    }
+                });
+                plotlyData.push({
+                    x: years,
+                    y: data.ph2,
+                    name: 'PH-2',
+                    mode: 'lines+markers',
+                    line: {
+                        color: colors.ph2,
+                        width: 3
+                    },
+                    marker: {
+                        size: 6
+                    }
+                });
+                plotlyData.push({
+                    x: years,
+                    y: data.ph3,
+                    name: 'PH-3',
+                    mode: 'lines+markers',
+                    line: {
+                        color: colors.ph3,
+                        width: 3
+                    },
+                    marker: {
+                        size: 6
+                    }
+                });
+                plotlyData.push({
+                    x: years,
+                    y: data.ph5,
+                    name: 'PH-5',
+                    mode: 'lines+markers',
+                    line: {
+                        color: colors.ph5,
+                        width: 3
+                    },
+                    marker: {
+                        size: 6
+                    }
+                });
+            } else {
+                plotlyData.push({
+                    x: years,
+                    y: data[category],
+                    name: category.toUpperCase(),
+                    mode: 'lines+markers',
+                    line: {
+                        color: colors[category],
+                        width: 3
+                    },
+                    marker: {
+                        size: 6
+                    }
+                });
+            }
+            
+            return plotlyData;
+        }
+        
+        // Update charts when category button is clicked
+        function updateChart(category) {
+            // Update Chart.js
+            cutoffChart.data = getChartData(category);
+            cutoffChart.update();
+            
+            // Update Plotly
+            Plotly.react('cutoffPlotlyChart', preparePlotlyData(category), {
+                title: 'Interactive Cutoff Analysis',
+                xaxis: {
+                    title: 'Year'
+                },
+                yaxis: {
+                    title: 'Cutoff Marks'
+                },
+                hovermode: 'closest',
+                showlegend: true,
+                legend: {
+                    orientation: 'h',
+                    y: -0.3
+                },
+                margin: {
+                    t: 40,
+                    b: 100
+                }
+            });
+            
+            // Update active button
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+        
+        // Tab functionality
+        function showTab(tabId) {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+        
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            cutoffChart.resize();
+            Plotly.Plots.resize('cutoffPlotlyChart');
+        });
+    </script>
+</body>
+</html>
